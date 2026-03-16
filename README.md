@@ -170,8 +170,8 @@ Benefits include:
 ## 1️⃣ Clone the repository
 
 ```bash
-git clone [https://github.com/your-username/fitplan-ai.git](https://github.com/SnehaGK2704/FitPlan_AI.git)
-cd fitplan-ai
+git clone https://github.com/SnehaGK2704/FitPlan_AI.git
+
 ```
 
 ## 2️⃣ Install dependencies
