@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+<h2>📚 Previous Workout Plans</h2>
+
+{% for plan in parsed_plans %}
+
+<h3 class="plan-title">Workout Plan {{ loop.index }}</h3>
+
+<div class="workout-wrapper">
+
+{% for day in plan %}
+
+<div class="day-card">
+
+<div class="day-header day{{ loop.index }}">
+{{ day.title }}
+</div>
+
+{% for ex in day.exercises %}
+
+<div class="exercise-item">
+
+<div class="exercise-name">
+{{ ex.name }}
+</div>
+
+<div class="exercise-sets">
+• {{ ex.sets }} × {{ ex.reps }}
+</div>
+
+<div class="exercise-rest">
+Rest: {{ ex.rest }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

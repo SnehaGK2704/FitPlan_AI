@@ -1,0 +1,335 @@
+/* ===============================
+   GLOBAL STYLES
+================================= */
+
+* {
+    box-sizing: border-box;
+    transition: background 0.3s ease, color 0.3s ease;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 40px;
+}
+
+
+/* ===============================
+   PAGE CONTAINER
+================================= */
+
+.container {
+    max-width: 1600px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+
+/* ===============================
+   INPUT FIELDS
+================================= */
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+label {
+    font-weight: 600;
+}
+
+
+/* ===============================
+   BUTTON
+================================= */
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+
+/* ===============================
+   RESULT BOX
+================================= */
+
+.result-box {
+    padding: 20px;
+    border-radius: 12px;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    font-size:15px;
+}
+
+
+
+
+/* ===============================
+   ☀️ LIGHT MODE
+================================= */
+
+
+
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
+        color: #1a1a1a;
+    }
+
+    .container {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(10px);
+    }
+
+    input, select {
+        background: white;
+        color: #1a1a1a;
+        border: 1px solid #ddd;
+    }
+
+    button {
+        background: linear-gradient(to right, #00b4d8, #0077b6);
+        color: white;
+    }
+
+    .result-box {
+        background: #f1f5f9;
+        color:black;
+    }
+
+    /* Dashboard cards */
+
+    .card{
+        background:rgba(255,255,255,0.9);
+        color:#1a1a1a;
+        box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card:hover{
+        background:white;
+    }
+
+
+
+/* ===============================
+   CHECKBOX FIX
+================================= */
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.checkbox-group input {
+    width: auto;
+}
+
+
+/* ===============================
+   EQUIPMENT GRID
+================================= */
+
+.equipment-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 40px;
+    margin-top: 10px;
+}
+
+/* checkbox row */
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/* checkbox size fix */
+
+.checkbox-group input {
+    width: auto;
+}
+
+
+/* ===============================
+   PROGRESS BAR
+================================= */
+
+.progress-container{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+#progress-bar{
+height:12px;
+width:0%;
+border-radius:20px;
+background:linear-gradient(to right,#00b4d8,#0077b6);
+transition:width 0.3s ease;
+}
+
+
+/* ===============================
+   FORM STEPS
+================================= */
+
+.form-step{
+display:none;
+}
+
+.form-step.active{
+display:block;
+}
+
+.form-navigation{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+}
+
+
+/* ===============================
+   DASHBOARD GRID
+================================= */
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:30px;
+}
+
+
+/* ===============================
+   DASHBOARD CARDS
+================================= */
+
+.card{
+padding:25px;
+border-radius:12px;
+text-decoration:none;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+
+/* ===============================
+   HEADINGS
+================================= */
+
+h2, h3{
+font-weight:600;
+}
+
+/* ===============================
+   WORKOUT PLAN CARD LAYOUT
+================================= */
+
+.workout-wrapper{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+/* Day Card */
+
+.day-card{
+background:white;
+border-radius:12px;
+padding:12px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+/* Day Header */
+
+.day-header{
+font-weight:600;
+padding:10px;
+border-radius:8px;
+color:white;
+font-size:15px;
+}
+
+/* Different colors for days */
+
+.day-card:nth-child(1) .day-header{
+background:#f4b942;
+}
+
+.day-card:nth-child(2) .day-header{
+background:#3aaed8;
+}
+
+.day-card:nth-child(3) .day-header{
+background:#8dbd6e;
+}
+
+.day-card:nth-child(4) .day-header{
+background:#c77dff;
+}
+
+.day-card:nth-child(5) .day-header{
+background:#ff7b7b;
+}
+
+/* Exercise Cards */
+
+.exercise-card{
+background:#f5f7fa;
+border-radius:8px;
+padding:8px;
+margin-top:4px;
+}
+
+.exercise-card strong{
+display:block;
+font-size:14px;
+}
+
+.exercise-card p{
+margin:2px 0;
+font-size:13px;
+}
+
+/* Rest label */
+
+.rest{
+font-size:11px;
+background:#e6edf5;
+padding:2px 6px;
+border-radius:5px;
+display:inline-block;
+margin-top:3px;
+}

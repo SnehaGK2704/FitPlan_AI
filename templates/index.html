@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FitPlan AI Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- WELCOME -->
+<div class="welcome">
+<h1>Welcome {{ name }} 👋</h1>
+</div>
+
+
+<!-- CURRENT PLAN -->
+<div class="card plan-card">
+
+<div class="plan-info">
+<h2>Current Plan</h2>
+<p>Day <strong>2</strong> of <strong>5</strong></p>
+</div>
+
+<div class="plan-buttons">
+
+<a href="/complete-workout" class="btn-primary">
+Complete Workout
+</a>
+
+<a href="/generate" class="btn-secondary">
+Generate Workout Plan
+</a>
+
+<a href="/current-workout" class="btn-secondary">
+Current Workout
+</a>
+
+<a href="/previous-plans" class="btn-secondary">
+Previous Workouts
+</a>
+
+</div>
+
+</div>
+
+
+<!-- STATS -->
+<div class="stats">
+
+<div class="stat-box">
+<h3>Weight</h3>
+<p>{{ weight }} kg</p>
+</div>
+
+<div class="stat-box">
+<h3>BMI</h3>
+<p>{{ bmi }}</p>
+</div>
+
+<div class="stat-box">
+<h3>Streak</h3>
+<p>Coming Soon</p>
+</div>
+
+<div class="stat-box">
+<h3>Plans Generated</h3>
+<p>{{ plans_completed }}</p>
+</div>
+
+</div>
+
+
+<!-- PLAN + TODAY PROGRESS -->
+<div class="progress-section">
+
+<!-- PLAN PROGRESS -->
+<div class="card">
+
+<h2>Plan Progress</h2>
+
+<div class="semi-chart">
+<canvas id="planChart"></canvas>
+</div>
+
+<p>Day 1 / 5</p>
+
+</div>
+
+
+<!-- TODAY PROGRESS -->
+<div class="card">
+
+<h2>Today's Progress</h2>
+
+<div class="today-progress-layout">
+
+<!-- LEFT SIDE : EXERCISES -->
+<div class="exercise-list">
+
+{% for ex in exercises %}
+
+<div class="exercise-card">
+
+<input type="checkbox" class="goal-checkbox">
+
+<div class="exercise-info">
+
+<div class="exercise-name">
+{{ ex.split("–")[0] }}
+</div>
+
+<div class="exercise-meta">
+{{ ex.split("–")[1] }}
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<!-- RIGHT SIDE : PROGRESS -->
+<div class="today-progress-graph">
+
+<div class="semi-chart">
+<canvas id="todayChart"></canvas>
+</div>
+
+<p class="progress-text">
+<span id="progress-count">0</span> out of {{ exercises|length }} completed
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- WEIGHT GRAPH -->
+<div class="card weight-card">
+
+<h2>Weight Progress</h2>
+
+<div class="weight-layout">
+
+<!-- LEFT : GRAPH -->
+<div class="weight-chart-container">
+<canvas id="weightChart"></canvas>
+</div>
+
+<!-- RIGHT : UPDATE FORM -->
+<div class="weight-update">
+
+<form action="/log_weight" method="POST">
+
+<input type="number"
+name="weight"
+step="0.1"
+placeholder="Enter today's weight"
+required>
+
+<button type="submit" class="btn-primary">
+Update Weight
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="logout-section">
+
+<a href="/logout" class="logout-btn">
+Logout
+</a>
+
+</div>
+</div>
+
+
+<div id="chart-data"
+data-dates='{{ weight_dates | tojson }}'
+data-weights='{{ weight_data | tojson }}'
+data-total='{{ exercises|length }}'>
+</div>
+<script>
+
+
+let todayChart;
+
+/* Convert Flask data safely to JS */
+const chartData = document.getElementById("chart-data");
+
+const weightDates = JSON.parse(chartData.dataset.dates || "[]");
+const weightData = JSON.parse(chartData.dataset.weights || "[]");
+const totalExercises = parseInt(chartData.dataset.total || "0");
+
+window.onload = function(){
+
+/* PLAN PROGRESS */
+
+new Chart(document.getElementById("planChart"),{
+type:"doughnut",
+data:{
+datasets:[{
+data:[40,60],
+backgroundColor:["#00b4d8","#e5e7eb"],
+borderWidth:0
+}]
+},
+options:{
+rotation:-90,
+circumference:180,
+cutout:"70%",
+plugins:{legend:{display:false}}
+}
+});
+
+
+/* TODAY PROGRESS */
+
+todayChart = new Chart(document.getElementById("todayChart"),{
+type:"doughnut",
+data:{
+datasets:[{
+data:[0,totalExercises],
+backgroundColor:["#00b4d8","#e5e7eb"],
+borderWidth:0
+}]
+},
+options:{
+rotation:-90,
+circumference:180,
+cutout:"70%",
+plugins:{legend:{display:false}}
+}
+});
+
+
+/* CHECKBOX LISTENERS */
+
+document.querySelectorAll(".goal-checkbox").forEach(cb=>{
+cb.addEventListener("change",updateTodayProgress);
+});
+
+
+/* WEIGHT GRAPH */
+
+const weightCtx = document.getElementById("weightChart");
+
+new Chart(weightCtx,{
+type:"line",
+data:{
+labels: weightDates,
+datasets:[{
+label:"Weight",
+data: weightData,
+borderColor:"#00b4d8",
+backgroundColor:"rgba(0,180,216,0.2)",
+tension:0.3,
+fill:true
+}]
+},
+options:{
+plugins:{legend:{display:false}},
+scales:{
+y:{beginAtZero:false}
+}
+}
+});
+
+};
+
+
+
+function updateTodayProgress(){
+
+const checkboxes = document.querySelectorAll(".goal-checkbox");
+
+let completed = 0;
+
+checkboxes.forEach(cb=>{
+if(cb.checked){
+completed++;
+}
+});
+
+let total = checkboxes.length;
+
+todayChart.data.datasets[0].data = [completed, total-completed];
+todayChart.update();
+
+document.getElementById("progress-count").innerText = completed;
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Workout Plan</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏋️ FitPlan AI</h1>
+<h2>💪 Your Personalized Workout Plan</h2>
+
+<div class="result-box">
+<p><strong>BMI:</strong> {{ bmi }}</p>
+<p><strong>Status:</strong> {{ bmi_status }}</p>
+</div>
+
+<h3>Workout Plan</h3>
+
+<div class="workout-wrapper">
+
+{% for day in workout_days %}
+
+<div class="day-card">
+
+<div class="day-header">
+{{ day.title }}
+</div>
+
+<div class="exercise-list">
+
+{% for ex in day.exercises %}
+
+<div class="exercise-item">
+
+<div class="exercise-name">
+{{ ex.name }}
+</div>
+
+<div class="exercise-sets">
+• {{ ex.sets }} × {{ ex.reps }}
+</div>
+
+<div class="exercise-rest">
+Rest: {{ ex.rest }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

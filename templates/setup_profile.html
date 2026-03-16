@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Let's set up your profile</h2>
+
+<div class="progress-container">
+<div id="progress-bar"></div>
+</div>
+
+<form id="profileForm" method="POST">
+
+<!-- STEP 1 -->
+<div class="form-step active">
+
+<h3>Basic Info</h3>
+
+<label>Name</label>
+<input type="text" name="name" required>
+
+<label>Age</label>
+<input type="number" name="age" required>
+
+</div>
+
+
+<!-- STEP 2 -->
+<div class="form-step">
+
+<h3>Body Metrics</h3>
+
+<label>Height (cm)</label>
+<input type="number" name="height" required>
+
+<label>Weight (kg)</label>
+<input type="number" name="weight" required>
+
+</div>
+
+
+<!-- STEP 3 -->
+<div class="form-step">
+
+<h3>Fitness Details</h3>
+
+<label>Goal</label>
+
+<select name="goal">
+<option>Build Muscle</option>
+<option>Lose Weight</option>
+<option>Improve Endurance</option>
+<option>General Fitness</option>
+</select>
+
+<label>Fitness Level</label>
+
+<select name="fitness_level">
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+
+
+<label>Equipment</label>
+
+<div class="equipment-list">
+
+<label><input type="checkbox" name="equipment" value="Dumbbells"> Dumbbells</label>
+
+<label><input type="checkbox" name="equipment" value="Barbell"> Barbell</label>
+
+<label><input type="checkbox" name="equipment" value="Treadmill"> Treadmill</label>
+
+<label><input type="checkbox" name="equipment" value="Exercise Bike"> Exercise Bike</label>
+
+<label><input type="checkbox" name="equipment" value="Yoga Mat"> Yoga Mat</label>
+
+</div>
+
+</div>
+
+
+<div class="form-navigation">
+
+<button type="button" id="prevBtn">Back</button>
+<button type="button" id="nextBtn">Next</button>
+
+</div>
+
+</form>
+
+<script src="{{ url_for('static',filename='setup.js') }}"></script>
+
+{% endblock %}
